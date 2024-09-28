@@ -1,0 +1,33 @@
+{
+  "name": "padre-bot",
+  "version": "1.0.0",
+  "description": "A Discord bot to send daily bible verses",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/miguel-correa/padre-bot.git"
+  },
+  "keywords": [
+    "discord",
+    "bot",
+    "bible"
+  ],
+  "author": "Miguel Correa",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/miguel-correa/padre-bot/issues"
+  },
+  "homepage": "https://github.com/miguel-correa/padre-bot#readme",
+  "dependencies": {
+    "axios": "^1.7.7",
+    "cheerio": "^1.0.0",
+    "discord.js": "^14.16.2",
+    "http": "^0.0.1-security"
+  },
+  "devDependencies": {
+    "eslint": "^9.11.1"
+  }
+}
