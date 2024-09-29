@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, AttachmentBuilder } = require('discord.js');
+const { SlashCommandBuilder, blockQuote, TextInputStyle, AttachmentBuilder } = require('discord.js');
 const axios = require('axios');
 const cheerio = require('cheerio');
 const Canvas = require('@napi-rs/canvas');
@@ -7,23 +7,24 @@ const Canvas = require('@napi-rs/canvas');
 async function getVerse() {
 	let verse, book;
 	try {
-		const response = await axios.get('https://www.bibliaon.com/api/getMoreVerse.php');
+		const response = await axios.get('https://www.bibliaon.com/versiculo_do_dia/');
 		if (response.status === 200) {
 			const html = response.data;
 			const $ = cheerio.load(html);
-			verse = $('#versiculo_aleatorio')
+			verse = $('#versiculo_hoje')
 				.contents()
 				.filter(function() {
 					return this.type === 'text';
 				})
 				.text()
 				.trim();
-			book = $('#versiculo_aleatorio a').text().trim();
+			book = $('#versiculo_hoje a').text().trim();
 		}
 	}
 	catch (err) {
 		console.log(err);
 	}
+
 	return {
 		mainText: verse,
 		book: book,
