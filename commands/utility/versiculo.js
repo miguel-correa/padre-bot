@@ -2,7 +2,9 @@ const { SlashCommandBuilder, AttachmentBuilder } = require('discord.js');
 const axios = require('axios');
 const cheerio = require('cheerio');
 const Canvas = require('@napi-rs/canvas');
-// const fs = require('fs');
+const { getChristianImage } = require('../../utils/get-random-picture.js');
+const path = require('path');
+const fs = require('fs');
 
 async function getVerse() {
 	let verse, book;
@@ -38,15 +40,24 @@ module.exports = {
 	async execute(interaction) {
 		const dayVerse = await getVerse();
 
-		const canvas = Canvas.createCanvas(1000, 667);
+		const im = await getChristianImage();
+		const imagePath = path.resolve(__dirname, '../../resource/' + im[0] + '.png');
+
+		// Scale the image down to fit in 1920x1080
+		const scaleFactor = Math.min(1920 / im[1], 1080 / im[2]);
+
+		const canvas = await Canvas.createCanvas(im[1] * scaleFactor, im[2] * scaleFactor);
 		const context = canvas.getContext('2d');
-		const image = await Canvas.loadImage('./resource/bible.png');
-
+		const image = await Canvas.loadImage(imagePath);
 		context.drawImage(image, 0, 0, canvas.width, canvas.height);
-
 		const attachment = new AttachmentBuilder(await canvas.encode('png'), { name: 'bible.png' });
 
-		await interaction.reply({ content: dayVerse.mainText + '\n' + dayVerse.book, ephemeral: false, files: [attachment] });
+		if (attachment) {
+			await interaction.reply({ content: dayVerse.mainText + '\n' + dayVerse.book, ephemeral: false, files: [attachment] });
+		}
+		else {
+			await interaction.reply({ content: 'Could not load the image. Please try again later.', ephemeral: true });
+		};
 	},
 };
 

@@ -34,7 +34,7 @@ async function getVerse() {
 
 module.exports = {
 	data: new SlashCommandBuilder()
-		.setName('versiculo')
+		.setName('versiculo-do-dia')
 		.setDescription('Receba um versículo abençoado.'),
 	async execute(interaction) {
 		const dayVerse = await getVerse();
