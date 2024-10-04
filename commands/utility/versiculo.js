@@ -58,6 +58,14 @@ module.exports = {
 		else {
 			await interaction.reply({ content: 'Could not load the image. Please try again later.', ephemeral: true });
 		};
+
+		fs.rm(imagePath, (err) => {
+			if (err) {
+				console.log('Unable to remove file at ' + imagePath);
+				throw err;
+			}
+			console.log('File at \'' + imagePath + '\' removed.');
+		});
 	},
 };
 
