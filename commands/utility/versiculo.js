@@ -38,8 +38,9 @@ module.exports = {
 		.setName('versiculo')
 		.setDescription('Receba um versículo abençoado.'),
 	async execute(interaction) {
-		const dayVerse = await getVerse();
+		await interaction.deferReply();
 
+		const dayVerse = await getVerse();
 		const im = await getChristianImage();
 		const imagePath = path.resolve(__dirname, '../../resource/' + im[0] + '.png');
 
@@ -53,10 +54,10 @@ module.exports = {
 		const attachment = new AttachmentBuilder(await canvas.encode('png'), { name: 'bible.png' });
 
 		if (attachment) {
-			await interaction.reply({ content: dayVerse.mainText + '\n' + dayVerse.book, ephemeral: false, files: [attachment] });
+			await interaction.followUp({ content: dayVerse.mainText + '\n' + dayVerse.book, ephemeral: false, files: [attachment] });
 		}
 		else {
-			await interaction.reply({ content: 'Could not load the image. Please try again later.', ephemeral: true });
+			await interaction.followUp({ content: 'Could not load the image. Please try again later.', ephemeral: true });
 		};
 
 		fs.rm(imagePath, (err) => {

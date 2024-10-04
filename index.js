@@ -54,3 +54,13 @@ client.on(Events.InteractionCreate, async interaction => {
 });
 
 client.login(token);
+
+(async () => {
+	try {
+		await fs.promises.mkdir('./resource/', { recursive: true });
+		console.log('Directory is ready.');
+	}
+	catch (err) {
+		console.error('Unable to create directory at ./resource', err);
+	}
+})();
