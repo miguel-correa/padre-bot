@@ -3,6 +3,7 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 const { arrayBuffer } = require('stream/consumers');
 const fs = require('fs').promises;
+const path = require('path');
 
 function getRandomNumber(max) {
 	return Math.floor(Math.random() * max);
@@ -53,7 +54,9 @@ const getChristianImage = async () => {
 			const pictureWidth = response.data.photos[pictureIndex].width;
 			const pictureHeight = response.data.photos[pictureIndex].height;
 
-			await saveImage(pictureUrl, `./resource/${pictureId}.png`);
+			const imagePath = path.resolve(__dirname, '../resource');
+
+			await saveImage(pictureUrl, `${imagePath}/${pictureId}.png`);
 
 			return [pictureId, pictureWidth, pictureHeight];
 		}
